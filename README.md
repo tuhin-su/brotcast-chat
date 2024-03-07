@@ -27,3 +27,20 @@ Brotcast Chat offers customization options, allowing users to personalize their 
 
 ### Security and Privacy(Working now add on next update): 
 Built with security in mind, Brotcast Chat ensures that messages and files exchanged within the LAN remain private and protected from external threats.
+
+# Compile Own
+
+## Linux or Distro
+```bash
+  git clone https://github.com/tuhin-su/brotcast-chat.git
+  cd brotcast-chat
+  pip install -r requirements.txt
+  python3 main.py
+```
+## Windows or Distro
+```bash
+  git clone https://github.com/tuhin-su/brotcast-chat.git
+  cd brotcast-chat
+  py -m pip install -r requirements.txt
+  py main.py
+```
