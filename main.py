@@ -13,7 +13,6 @@ class UI:
         self.appTitle="BChat"
         self.height=600
         self.width=400
-
         
         self.cLc = 0
         self.label_list = []
