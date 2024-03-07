@@ -1,13 +1,15 @@
 from json import dumps, loads
 from tkinter import *
 from base64 import b64decode
-from modules import TX, lisener
+from modules import TX, RX
+import threading
 
 
 class UI:
     def __init__(self) -> None:
         self.tx = TX.TX()
-        self.rx = lisener.RX()
+        self.rx = RX.RX()
+
         self.rx.set(ui=self)
         self.t1 = None
         self.appTitle="BChat"
@@ -20,7 +22,6 @@ class UI:
         self.name_login = None
 
         self.window = Tk()
-        self.window.protocol("WM_DELETE_WINDOW", self.stop_server)
         self.window.title(self.appTitle)
         
 
@@ -120,6 +121,12 @@ class UI:
 
     def login(self, event):
         self.name_login = self.enter_name.get()
+        data = {
+                "user": self.name_login,
+                "msg": self.name_login+" Joind!"
+            }
+        self.tx.send(dumps(data).encode())
+        
         if self.name_login.isalpha():
             self.login_frame.destroy()
             self.chatframe.place(x=0, y=0)
@@ -128,6 +135,7 @@ class UI:
         self.window.minsize(self.width, self.height)
         self.window.maxsize(self.width, self.height)
         self.window.iconphoto(True, self.Tchaticon)
+
 
         self.login_frame.pack(side="left", fill="both", expand=TRUE)
         self.logincanv.pack(side="left", fill="both", expand=TRUE)
@@ -152,15 +160,21 @@ class UI:
         self.text_enter.bind("<Return>", self.send_msg)
         self.window.bind("<Up>", self.go_up)
         self.window.bind("<Down>", self.go_down)
+
+        self.rx.set(self)
         
     def loop(self):
         self.window.mainloop()
+        self.rx.run=False
+        data = {
+                "user": self.name_login,
+                "msg": self.name_login+" left!"
+            }
+        self.tx.send(dumps(data).encode())
     
-    def stop_server(self):
-        self.t1.stop()
 
     def run(self):
-        self.t1 = lisener.server_demon(rx=self.rx)
+        self.t1 = threading.Thread(target=self.rx.bind)
         self.t1.start()
         self.loop()
    

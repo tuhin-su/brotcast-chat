@@ -6,12 +6,13 @@ class RX:
         self.port = 4454
         self.addr = ""
         self.ui = None
+        self.run = True
 
     def set(self, ui) -> None:
         self.ui = ui
 
     def bind(self):
         self.RX.bind((self.addr, self.port))
-        while True:
+        while self.run:
             data, _ = self.RX.recvfrom(1024)
             self.ui.recive_msg(data)
