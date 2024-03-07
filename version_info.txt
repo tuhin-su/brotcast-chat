@@ -1,0 +1,7 @@
+CompanyName=Your Company Name
+FileDescription=Chat applicatiion
+FileVersion=1.0.0
+InternalName=BChat
+OriginalFilename=BChat.exe
+ProductName=BChat
+ProductVersion=1.0.0
