@@ -66,25 +66,35 @@ class UI:
                     x_val, y_val = i.winfo_x(), i.winfo_y()
                     i.place(x=x_val, y=(y_val + 50))
 
-    def recive_msg(self, data:dict):
-        data=loads(data.decode())
+    def add_msg(self, data:dict, send:bool=True):
         current_msg = str(data["msg"])
         sender_id = data["user"]
 
-        if current_msg.isspace() == True and sender_id != self.name_login:
-            for i in range(self.cLc):
+        for i in range(self.cLc):
                 x_val, y_val = self.label_list[i].winfo_x(), self.label_list[i].winfo_y()
                 self.label_list[i].place(x=x_val, y=(y_val - 50))
                 self.last_place = self.label_list[i].winfo_y()
-
-            label = Canvas(self.msg_canv, height=50, width=350)
-            label.create_image(5, 5, image=self.me_icon, anchor=NW)
-            label.create_text(5, 35, text=sender_id, fill="black", anchor=NW)
+        
+        if send:
+            label = Canvas(self.msg_canv, height=50, width=350, )
+            label.create_image(310, 5, image=self.me_icon, anchor=NW)
+            label.create_text(340, 35, text=self.name_login, fill="black", anchor=NE)
             label_msg = Label(label, text=current_msg, font=("arial", 12, "bold"), bg="#FFFFFF", fg="black")
-            label_msg.place(x=50, y=10)
+            label_msg.place(x=300 - label_msg.winfo_reqwidth(), y=10)
             self.label_list.append(label)
             self.label_list[self.cLc].place(x=0, y=self.last_place)
             self.cLc += 1
+
+        else:
+            if current_msg.isspace() == True and sender_id != self.name_login:
+                label = Canvas(self.msg_canv, height=50, width=350)
+                label.create_image(5, 5, image=self.me_icon, anchor=NW)
+                label.create_text(5, 35, text=sender_id, fill="black", anchor=NW)
+                label_msg = Label(label, text=current_msg, font=("arial", 12, "bold"), bg="#FFFFFF", fg="black")
+                label_msg.place(x=50, y=10)
+                self.label_list.append(label)
+                self.label_list[self.cLc].place(x=0, y=self.last_place)
+                self.cLc += 1
 
     def send_msg(self, event):
         current_msg = self.text_enter.get()
@@ -96,29 +106,8 @@ class UI:
                 "msg": current_msg
             }
 
-            for i in range(self.cLc):
-                x_val, y_val = self.label_list[i].winfo_x(), self.label_list[i].winfo_y()
-                self.label_list[i].place(x=x_val, y=(y_val - 50))
-                self.last_place = self.label_list[i].winfo_y()
-
-            if True:
-                label = Canvas(self.msg_canv, height=50, width=350, )
-                label.create_image(310, 5, image=self.me_icon, anchor=NW)
-                label.create_text(340, 35, text=self.name_login, fill="black", anchor=NE)
-                label_msg = Label(label, text=current_msg, font=("arial", 12, "bold"), bg="#FFFFFF", fg="black")
-                label_msg.place(x=300 - label_msg.winfo_reqwidth(), y=10)
-                self.label_list.append(label)
-                self.label_list[self.cLc].place(x=0, y=self.last_place)
-                self.cLc += 1
-
     def login(self, event):
         self.name_login = self.enter_name.get()
-        data = {
-                "user": self.name_login,
-                "msg": self.name_login+" Joind!"
-            }
-        self.tx.send(dumps(data).encode())
-        
         if self.name_login.isalpha():
             self.login_frame.destroy()
             self.chatframe.place(x=0, y=0)
