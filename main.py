@@ -1,18 +1,13 @@
 from json import dumps, loads
 from tkinter import *
 from base64 import b64decode
-from modules import TX, RX
 import threading
+from modules import transceiver, functions as fn
 
 
 class UI:
     def __init__(self) -> None:
-        self.tx = TX.TX()
-        self.rx = RX.RX()
-
-        self.rx.set(ui=self)
-        self.t1 = None
-        self.appTitle="BChat"
+        self.appTitle="BTChat"
         self.height=600
         self.width=400
         
@@ -71,11 +66,8 @@ class UI:
                     x_val, y_val = i.winfo_x(), i.winfo_y()
                     i.place(x=x_val, y=(y_val + 50))
 
-    def recive_msg(self, data: bytes):
+    def recive_msg(self, data:dict):
         data=loads(data.decode())
-        if type(data)==dict():
-            print("it is dict")
-        
         current_msg = str(data["msg"])
         sender_id = data["user"]
 
@@ -109,7 +101,7 @@ class UI:
                 self.label_list[i].place(x=x_val, y=(y_val - 50))
                 self.last_place = self.label_list[i].winfo_y()
 
-            if self.tx.send(msg=dumps(data).encode()):
+            if True:
                 label = Canvas(self.msg_canv, height=50, width=350, )
                 label.create_image(310, 5, image=self.me_icon, anchor=NW)
                 label.create_text(340, 35, text=self.name_login, fill="black", anchor=NE)
@@ -161,21 +153,12 @@ class UI:
         self.window.bind("<Up>", self.go_up)
         self.window.bind("<Down>", self.go_down)
 
-        self.rx.set(self)
         
     def loop(self):
         self.window.mainloop()
-        self.rx.run=False
-        data = {
-                "user": self.name_login,
-                "msg": self.name_login+" left!"
-            }
-        self.tx.send(dumps(data).encode())
     
 
     def run(self):
-        self.t1 = threading.Thread(target=self.rx.bind)
-        self.t1.start()
         self.loop()
    
 
