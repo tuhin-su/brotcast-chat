@@ -66,7 +66,7 @@ class UI:
                     x_val, y_val = i.winfo_x(), i.winfo_y()
                     i.place(x=x_val, y=(y_val + 50))
 
-    def add_msg(self, data:dict, send:bool=True):
+    def add_msg(self, data:dict, msgType:bool=True):
         current_msg = str(data["msg"])
         sender_id = data["user"]
 
@@ -75,7 +75,7 @@ class UI:
                 self.label_list[i].place(x=x_val, y=(y_val - 50))
                 self.last_place = self.label_list[i].winfo_y()
         
-        if send:
+        if msgType:
             label = Canvas(self.msg_canv, height=50, width=350, )
             label.create_image(310, 5, image=self.me_icon, anchor=NW)
             label.create_text(340, 35, text=self.name_login, fill="black", anchor=NE)
