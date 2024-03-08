@@ -5,6 +5,9 @@ class Transceiver:
         self.rx=RX.RX()
         self.address=""
         self.port=4466
+    def set(self, addr:str, port:int):
+        self.address=addr
+        self.port=port
     
     def up(self) -> bool:
         return self.rx.bind(self.port, self.address)
