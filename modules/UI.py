@@ -104,6 +104,7 @@ class UI:
             self.cn.id=id
             self.login_frame.destroy()
             self.chatframe.place(x=0, y=0)
+            self.cn.start_lisiner()
 
     def create_window(self):
         self.window.minsize(self.width, self.height)
