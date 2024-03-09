@@ -1,5 +1,6 @@
-from json import dumps
+from json import dumps, loads
 
+## IT IS A Simple Programe that allow to filter bad or listed word
 def fillterWord(badWord:list, string:str):
     string=string.split(" ")
     for badword in badWord: 
@@ -17,6 +18,7 @@ def fillterWord(badWord:list, string:str):
                 string[inde] = (start+mid+end)
     return (" ".join(string))
 
+## IT IS A FUNCTION THAT MAKE A FORMATE FOR COMUNICATION
 def MsgFormater(id:str, gid:str, data:str, FileType:str="text", **kwargs) -> bytes:
     Interdata={
         "id":id,
@@ -30,5 +32,11 @@ def MsgFormater(id:str, gid:str, data:str, FileType:str="text", **kwargs) -> byt
             Interdata["FileFormate"]=kwargs["FileFormate"]
         except KeyError:
             return False
-        else:
-            return dumps(Interdata).encode()
+    return dumps(Interdata).encode()
+
+## IT LOAD RESIVE DATA TO MSG FORMATE
+def MsgLoader(data:bytes) -> dict:
+    data=loads(data.decode())
+    if isinstance(data, dict):
+        return data
+    return False
