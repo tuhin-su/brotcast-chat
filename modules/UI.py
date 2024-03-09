@@ -7,6 +7,7 @@ class UI:
         self.height = 600
         self.width = 400
         self.cn = None
+        self.active=False
         
         self.cLc = 0
         self.label_list = []
@@ -65,8 +66,8 @@ class UI:
                     i.place(x=x_val, y=(y_val + 50))
 
     def add_msg(self, data:dict, msgType:bool=True):
-        current_msg = str(data["msg"])
-        sender_id = data["user"]
+        current_msg = str(data["data"])
+        sender_id = data["id"]
 
         for i in range(self.cLc):
                 x_val, y_val = self.label_list[i].winfo_x(), self.label_list[i].winfo_y()
@@ -133,5 +134,6 @@ class UI:
         self.window.bind("<Down>", self.go_down)
         
     def run(self):
+        self.active=True
         self.window.mainloop()
    
