@@ -1,3 +1,5 @@
+from json import dumps
+
 def fillterWord(badWord:list, string:str):
     string=string.split(" ")
     for badword in badWord: 
@@ -14,3 +16,19 @@ def fillterWord(badWord:list, string:str):
                 mid= ("*" * count)
                 string[inde] = (start+mid+end)
     return (" ".join(string))
+
+def MsgFormater(id:str, gid:str, data:str, FileType:str="text", **kwargs) -> bytes:
+    Interdata={
+        "id":id,
+        "gid":gid,
+        "type":FileType,
+        "data":data,
+    }
+    if FileType == "file":
+        try:
+            Interdata["FileName"]=kwargs["FileName"]
+            Interdata["FileFormate"]=kwargs["FileFormate"]
+        except KeyError:
+            return False
+        else:
+            return dumps(Interdata).encode()
