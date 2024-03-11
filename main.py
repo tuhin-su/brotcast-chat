@@ -40,6 +40,7 @@ class BTchat:
         self.thread.start()
 
     def run(self):
+        self.start_lisiner()
         self.ui.create_window()
         self.ui.set(self)
         self.ui.run()
