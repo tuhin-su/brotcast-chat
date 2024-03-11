@@ -1,7 +1,7 @@
 from modules.UI import UI
 from modules.transceiver import Transceiver
 from modules.functions import *
-from modules.storage import Storage
+from modules.storage import DataBase, DataBaseHandaler
 from threading import Thread
 from json import loads, dumps
 
@@ -10,7 +10,8 @@ class BTchat:
         self.ui=UI()
         self.ui.set(self)
         self.trans=Transceiver()
-        self.storage=Storage()
+        self.db=DataBase()
+        self.storage=DataBaseHandaler(db=self.db)
         self.id=None
         self.active_gid=None
         self.active=True
@@ -36,11 +37,11 @@ class BTchat:
                 self.ui.add_msg(data=data)
     
     def start_lisiner(self):
+        # IT call by ui when user login
         self.active=False
         self.thread.start()
 
     def run(self):
-        self.start_lisiner()
         self.ui.create_window()
         self.ui.set(self)
         self.ui.run()
