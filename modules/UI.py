@@ -108,7 +108,7 @@ class UI:
 
     def create_window(self):
         self.window.minsize(self.width, self.height)
-        # self.window.maxsize(self.width, self.height)
+        self.window.maxsize(self.width, self.height)
         self.window.iconphoto(True, self.Tchaticon)
 
         self.login_frame.pack(side="left", fill="both", expand=TRUE)
