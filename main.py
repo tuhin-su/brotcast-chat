@@ -33,14 +33,16 @@ class BTchat:
     def set(self):
         self.trans.up()
         while self.active:
+            print("tracin")
             data=self.trans.resive()
             data=MsgLoader(data=data)
             if data['id'] != self.id and self.ui.active:
                 self.ui.add_msg(data=data)
+        print("texit")
     
     def start_lisiner(self):
         # IT call by ui when user login
-        self.active=False
+        self.active=True
         self.thread.start()
 
     def run(self):
@@ -48,6 +50,7 @@ class BTchat:
         self.ui.set(self)
         self.ui.run()
         self.ui.active=False
+        self.active=False
         self.send("Good bay!")
 
 if __name__=="__main__":
