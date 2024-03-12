@@ -1,4 +1,8 @@
+import tkinter as tk
 from tkinter import *
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+
 from base64 import b64decode
 
 class UI:
@@ -13,7 +17,7 @@ class UI:
         self.label_list = []
         self.last_place = 400
 
-        self.window = Tk()
+        self.window = ttk.Window()
         self.window.title(self.appTitle)
         
 
@@ -28,10 +32,14 @@ class UI:
         self.chatframe = Frame(self.window, height=600, width=400)
         self.login_frame = Frame(self.window, height=600, width=400, )
         self.logincanv = Canvas(self.login_frame, height=600, width=400, background="white")
-        self.enter_name = Entry(self.login_frame, font=("Bell MT", 15), width=30, bg="#E6D39E", )
+        self.enter_name = Entry(self.login_frame, font=("Bell MT", 15), width=30, bg="white")
         self.chatcanv = Canvas(self.chatframe, height=600, width=400)
         self.msg_canv = Canvas(self.chatframe, height=450, width=350)
-        self.text_enter = Entry(self.chatframe, font=("Amasis MT Pro", 15), bg="#000B0D", fg="white", width=28)
+        self.text_enter = Entry(self.chatframe, font=("Amasis MT Pro", 15), bg="#000B0D", fg="white", width=30)
+        
+    def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
+        chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
+    
 
     def set(self, contriler):
         self.cn = contriler
@@ -84,7 +92,7 @@ class UI:
 
         else:
             label.create_image(5, 5, image=self.me_icon, anchor=NW)
-            label.create_text(5, 35, text=sender_id, fill="black", anchor=NW)
+            label.create_text(5, 35, text=sender_id, fill="black", anchor=NS)
             label_msg.place(x=50, y=10)
         
         self.label_list.append(label)
@@ -117,19 +125,17 @@ class UI:
         next_button = self.logincanv.create_image(165, 440, image=self.next_icon, anchor=NW)
         self.logincanv.tag_bind(next_button, "<Button-1>", self.login)
 
-        self.enter_name.place(x=50, y=360, height=40)
+        self.center_horizontal(root=self.login_frame, chield=self.enter_name, x=0.65, y=0.5)
         self.enter_name.bind("<Return>", self.login)
 
         self.chatcanv.place(x=-1, y=0)
 
-        send_button = self.chatcanv.create_text(345, 545, text="Send", anchor=NW)  # continue here
-        self.chatcanv.tag_bind(send_button, "<Button-1>", self.send_msg)
 
         self.msg_canv.place(x=25, y=80)
         self.msg_canv.bind_all("<MouseWheel>", self.scroll_wil_me)
         self.msg_canv.bind_all("<B1-Motion>", self.scroll_wil_me)
 
-        self.text_enter.place(x=20, y=550, height=40)
+        self.center_horizontal(root=self.chatframe, chield=self.text_enter, x=0.96)
         self.text_enter.bind("<Return>", self.send_msg)
         self.window.bind("<Up>", self.go_up)
         self.window.bind("<Down>", self.go_down)

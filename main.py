@@ -16,7 +16,7 @@ class BTchat:
         self.id=None
         self.active_gid=None
         self.active=True
-        self.thread=Thread(target=self.set)
+        self.thread=Thread(target=self.lisiner)
         
 
     def send(self, data):
@@ -28,7 +28,7 @@ class BTchat:
                 data=MsgLoader(data=data)
                 self.ui.add_msg(data=data)
 
-    def set(self):
+    def lisiner(self):
         self.trans.up()
         while self.active:
             data=self.trans.resive()
@@ -39,7 +39,7 @@ class BTchat:
                 FileFormate=data['FileFormate']
             self.storage.addMsg(mid=data['mid'], gid=data['gid'], uid=data['id'], data=data['data'], dataType=data['type'], formate=FileFormate, FileName=FileName)
             if data['id'] != self.id and self.ui.active:
-                self.ui.add_msg(data=data)
+                self.ui.add_msg(data=data, msgType=False)
 
     def start_lisiner(self):
         # IT call by ui when user login
