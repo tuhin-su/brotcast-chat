@@ -23,11 +23,16 @@ class BTchat:
         self.active_gid="llb"
         if self.active_gid != None and self.id != None:
             data=fillterWord(["bac","bccd"], data)
-            data=MsgFormater(id=self.id, gid=self.active_gid, data=data)
+            data=MsgFormater(id=self.id, mid=gen_unic(), gid=self.active_gid, data=data)
             if self.trans.send(data) and self.ui.active:
                 data=MsgLoader(data=data)
+                FileName=FileFormate=''
+                if ('FileName' in data.keys()) and ('FileFormate' in data.keys()):
+                    FileName=data['FileName']
+                    FileFormate=data['FileFormate']
+                x=self.storage.addMsg(mid=data['mid'], gid=data['gid'], uid=data['id'], data=data['data'], dataType=data['type'], formate=FileFormate, FileName=FileName)
+                print(x)
                 self.ui.add_msg(data=data)
-
 
     def set(self):
         self.trans.up()

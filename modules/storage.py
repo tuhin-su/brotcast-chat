@@ -38,18 +38,19 @@ class DataBaseHandaler:
         except:
             return False
     
-    def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str, formate:str='', FileName:str=''):
+    def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str='text', formate:str='', FileName:str=''):
         query="INSERT INTO `msg` VALUES( NUll, '{}', '{}', '{}', '{}', '{}', '{}', {});"
         if mid.isspace() == True or gid.isspace() == True or uid.isspace() == True or data.isspace() == True or dataType.isspace() == True:
             return False
-        if dataType != 'file':
+        if dataType != 'text':
             if formate.isspace() == True:
                 return
-        query.format(mid, gid, uid, data, dataType, formate, FileName)
+        query=query.format(mid, gid, uid, data, dataType, formate, FileName)
         try:
+            print(query)
             return self.db.exe(qurey=query)
-        except:
-            return
+        except Exception as e:
+            return e
 
     def deletMsg(self, mid:str):
         query="DELETE FROM `msg` WHERE `mid`='{}';"
