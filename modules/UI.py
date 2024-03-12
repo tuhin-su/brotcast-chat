@@ -95,7 +95,7 @@ class UI:
         current_msg = self.text_enter.get()
         self.text_enter.delete(0, END)
 
-        if current_msg.isspace() == False or len(current_msg) > 0:
+        if current_msg.isspace() == False and len(current_msg) > 0:
             self.cn.send(current_msg)
 
     def login(self, event):

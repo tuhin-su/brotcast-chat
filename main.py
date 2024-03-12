@@ -48,7 +48,7 @@ class BTchat:
         self.ui.run()
         self.ui.active=False
         self.active=False
-        self.send("Good bay!")
+        self.send("Good by!")
 
 if __name__=="__main__":
     core=BTchat()
