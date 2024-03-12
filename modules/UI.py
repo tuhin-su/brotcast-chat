@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-
+from modules.config import config
 from base64 import b64decode
+from time import sleep
 
 class UI:
-    def __init__(self) -> None:
+    def __init__(self, conf:config) -> None:
+        self.conf=conf
         self.appTitle = "BTChat"
         self.height = 600
         self.width = 400
@@ -40,21 +42,18 @@ class UI:
     def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
         chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
     
-
     def set(self, contriler):
         self.cn = contriler
 
-    def go_up(self, event):
-        if self.label_list[self.cLc - 1].winfo_y() != 400:
-            for i in self.label_list:
-                x_val, y_val = i.winfo_x(), i.winfo_y()
-                i.place(x = x_val, y = (y_val - 50))
+    def go_up(self, event): # scroll up
+        print("go down")
+    
 
-    def go_down(self, event):
-        if self.label_list[0].winfo_y() < 0:
-            for i in self.label_list:
-                x_val, y_val = i.winfo_x(), i.winfo_y()
-                i.place(x = x_val, y = (y_val + 50))
+
+    def go_down(self, event): # scroll down
+        print("go down")
+       
+            
 
     def scroll_wil_me(self, event):
         delta = event.delta // 120
@@ -73,7 +72,8 @@ class UI:
                     x_val, y_val = i.winfo_x(), i.winfo_y()
                     i.place(x=x_val, y=(y_val + 50))
 
-    def add_msg(self, data:dict, msgType:bool=True):
+    def add_msg(self, data:dict, append:bool=True, pos=0):
+        
         current_msg = str(data["data"])
         sender_id = data["id"]
 
@@ -85,7 +85,7 @@ class UI:
         label = Canvas(self.msg_canv, height=50, width=350)
         label_msg = Label(label, text=current_msg, font=("arial", 12, "bold"), bg="#FFFFFF", fg="black")
 
-        if msgType:
+        if sender_id == self.cn.id:
             label.create_image(310, 5, image=self.me_icon, anchor=NW)
             label.create_text(340, 35, text=sender_id, fill="black", anchor=NE)
             label_msg.place(x=300 - label_msg.winfo_reqwidth(), y=10)
@@ -95,7 +95,11 @@ class UI:
             label.create_text(5, 35, text=sender_id, fill="black", anchor=NS)
             label_msg.place(x=50, y=10)
         
-        self.label_list.append(label)
+        if append:
+            self.label_list.append(label)
+        else:
+            self.label_list.insert(pos, label)
+
         self.label_list[self.cLc].place(x=0, y=self.last_place)
         self.cLc += 1
 
@@ -113,6 +117,11 @@ class UI:
             self.login_frame.destroy()
             self.chatframe.place(x=0, y=0)
             self.cn.start_lisiner()
+            for i in range(0, self.conf.loadRacodeSize):
+                x=self.cn.loadmsg()
+                if x == None:
+                    break
+                self.add_msg(x)
 
     def create_window(self):
         self.window.minsize(self.width, self.height)

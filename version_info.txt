@@ -1,7 +1,7 @@
-CompanyName=Your Company Name
+CompanyName=TechRoot
 FileDescription=Chat applicatiion
 FileVersion=1.0.0
-InternalName=BChat
-OriginalFilename=BChat.exe
-ProductName=BChat
+InternalName=BTChat
+OriginalFilename=BTChat.exe
+ProductName=BTChat
 ProductVersion=1.0.0

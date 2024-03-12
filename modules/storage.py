@@ -1,24 +1,10 @@
 import sqlite3
 from modules.config import config
 
-class DataBase:
-    def __init__(self,conf:config) -> None:
-        self.conf=conf
-        self.db=sqlite3.connect(self.conf.databaseLocation)
-    
-    def close(self):
-        self.db.close()
-    
-    def exe(self, qurey:str):
-        try:
-            return self.db.execute(qurey)
-        except:
-            return False
-
 class DataBaseHandaler:
-    def __init__(self, db:DataBase, conf:config) -> None:
-        self.db=db
+    def __init__(self, conf:config) -> None:
         self.conf=conf
+        self.db=self.db=sqlite3.connect(self.conf.databaseLocation)
         self.create_tabile()
 
     def create_tabile(self):
@@ -33,12 +19,12 @@ class DataBaseHandaler:
                 `FILENAME` varchar(30) NULL
             );'''
         try:
-            self.db.exe(qurey=query)
+            self.db.execute(query)
         except Exception as e:
             return e
     
     def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str='text', formate:str='', FileName:str=''):
-        query="INSERT INTO `msg` VALUES( NUll, '3ed0af404b7217e94786e158dc2fb883', 'llb', 'tuhin', 'ds', 'text', '', '');"
+        query="INSERT INTO `msg` VALUES( NUll, '{}', '{}', '{}', '{}', '{}', '{}', '{}');"
 
         if mid.isspace() == True or gid.isspace() == True or uid.isspace() == True or data.isspace() == True or dataType.isspace() == True:
             return False
@@ -49,8 +35,8 @@ class DataBaseHandaler:
             
         query=query.format(mid, gid, uid, data, dataType, formate, FileName)
         try:
-            return self.db.exe(qurey=query)
-
+            self.db.execute(query)
+            self.db.commit()
         except Exception as e:
             return e
 
@@ -60,21 +46,28 @@ class DataBaseHandaler:
             return
         query.format(mid)
         try:
-            return self.db.exe(qurey=query)
+            return self.db.execute(query)
         except:
             return
 
-    def loadMsg(self,start:int=0):
-        query="SELECT * FROM `msg` ORDER BY `id` DESC LIMIT {}, {}".format(start,self.conf.loadRacodeSize)
+    def loadMsg(self, id:int=1):
+        query="SELECT * FROM `msg` WHERE  `id`='{}';".format(id)
         try:
-            return self.db.exe(qurey=query)
-        except:
-            return
+            return self.db.execute(query).fetchone()
+        except Exception as e:
+            return e
         
     def drop_table(self):
         query="DROP TABLE `msg`"
         try:
-            self.db.exe(qurey=query)
+            self.db.execute(query)
             return True
+        except Exception as e:
+            return e
+        
+    def len(self):
+        query="SELECT COUNT(*) AS record_count FROM msg;"
+        try:
+           return self.db.execute(query).fetchone()
         except:
-            return
+            pass
