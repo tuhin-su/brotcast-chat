@@ -1,4 +1,7 @@
 from json import dumps, loads
+from time import time, sleep
+import uuid
+from hashlib import md5
 
 ## IT IS A Simple Programe that allow to filter bad or listed word
 def fillterWord(badWord:list, string:str):
@@ -19,9 +22,10 @@ def fillterWord(badWord:list, string:str):
     return (" ".join(string))
 
 ## IT IS A FUNCTION THAT MAKE A FORMATE FOR COMUNICATION
-def MsgFormater(id:str, gid:str, data:str, FileType:str="text", **kwargs) -> bytes:
+def MsgFormater(id:str, mid:str, gid:str, data:str, FileType:str="text", **kwargs) -> bytes:
     Interdata={
         "id":id,
+        "mid":mid,
         "gid":gid,
         "type":FileType,
         "data":data,
@@ -40,3 +44,6 @@ def MsgLoader(data:bytes) -> dict:
     if isinstance(data, dict):
         return data
     return False
+
+def gen_unic():
+    return md5(((str(time())+str(uuid.getnode()))).encode()).hexdigest()

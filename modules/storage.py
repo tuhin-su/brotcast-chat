@@ -24,12 +24,13 @@ class DataBaseHandaler:
     def create_tabile(self):
         query='''CREATE TABLE IF NOT EXISTS `msg` (
   				`id` INTEGER PRIMARY KEY AUTOINCREMENT,
-                `MID` varchar(20),
-                `GID` varchar(20),
-                `UID` varchar(20),
+                `MID` varchar(40),
+                `GID` varchar(40),
+                `UID` varchar(40),
                 `DATA` varchar(80000),
                 `TYPE` varchar(10),
-                `FORMATE` varchar(10) NULL
+                `FORMATE` varchar(10) NULL,
+                `FILENAME` varchar(30) NULL,
             );'''
         try:
             self.exe(qurey=query)
@@ -37,14 +38,14 @@ class DataBaseHandaler:
         except:
             return False
     
-    def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str, formate:str=''):
-        query="INSERT INTO `msg` VALUES( NUll, '{}', '{}', '{}', '{}', '{}', '{}');"
+    def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str, formate:str='', FileName:str=''):
+        query="INSERT INTO `msg` VALUES( NUll, '{}', '{}', '{}', '{}', '{}', '{}', {});"
         if mid.isspace() == True or gid.isspace() == True or uid.isspace() == True or data.isspace() == True or dataType.isspace() == True:
             return False
         if dataType != 'file':
             if formate.isspace() == True:
                 return
-        query.format(mid, gid, uid, data, dataType, formate)
+        query.format(mid, gid, uid, data, dataType, formate, FileName)
         try:
             return self.db.exe(qurey=query)
         except:
