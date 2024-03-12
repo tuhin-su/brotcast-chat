@@ -4,7 +4,6 @@ from modules.functions import *
 from modules.storage import DataBase, DataBaseHandaler
 from modules.config import config
 from threading import Thread
-from json import loads, dumps
 
 class BTchat:
     def __init__(self) -> None:
@@ -33,13 +32,11 @@ class BTchat:
     def set(self):
         self.trans.up()
         while self.active:
-            print("tracin")
             data=self.trans.resive()
             data=MsgLoader(data=data)
             if data['id'] != self.id and self.ui.active:
                 self.ui.add_msg(data=data)
-        print("texit")
-    
+
     def start_lisiner(self):
         # IT call by ui when user login
         self.active=True
