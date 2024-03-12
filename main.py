@@ -26,12 +26,6 @@ class BTchat:
             data=MsgFormater(id=self.id, mid=gen_unic(), gid=self.active_gid, data=data)
             if self.trans.send(data) and self.ui.active:
                 data=MsgLoader(data=data)
-                FileName=FileFormate=''
-                if ('FileName' in data.keys()) and ('FileFormate' in data.keys()):
-                    FileName=data['FileName']
-                    FileFormate=data['FileFormate']
-                x=self.storage.addMsg(mid=data['mid'], gid=data['gid'], uid=data['id'], data=data['data'], dataType=data['type'], formate=FileFormate, FileName=FileName)
-                print(x)
                 self.ui.add_msg(data=data)
 
     def set(self):
@@ -39,6 +33,11 @@ class BTchat:
         while self.active:
             data=self.trans.resive()
             data=MsgLoader(data=data)
+            FileName=FileFormate=''
+            if ('FileName' in data.keys()) and ('FileFormate' in data.keys()):
+                FileName=data['FileName']
+                FileFormate=data['FileFormate']
+            self.storage.addMsg(mid=data['mid'], gid=data['gid'], uid=data['id'], data=data['data'], dataType=data['type'], formate=FileFormate, FileName=FileName)
             if data['id'] != self.id and self.ui.active:
                 self.ui.add_msg(data=data)
 

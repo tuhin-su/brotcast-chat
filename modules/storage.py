@@ -30,25 +30,27 @@ class DataBaseHandaler:
                 `DATA` varchar(80000),
                 `TYPE` varchar(10),
                 `FORMATE` varchar(10) NULL,
-                `FILENAME` varchar(30) NULL,
+                `FILENAME` varchar(30) NULL
             );'''
         try:
-            self.exe(qurey=query)
-            return True
-        except:
-            return False
+            self.db.exe(qurey=query)
+        except Exception as e:
+            return e
     
     def addMsg(self, mid:str, gid:str, uid:str, data:str, dataType:str='text', formate:str='', FileName:str=''):
-        query="INSERT INTO `msg` VALUES( NUll, '{}', '{}', '{}', '{}', '{}', '{}', '{}');"
+        query="INSERT INTO `msg` VALUES( NUll, '3ed0af404b7217e94786e158dc2fb883', 'llb', 'tuhin', 'ds', 'text', '', '');"
+
         if mid.isspace() == True or gid.isspace() == True or uid.isspace() == True or data.isspace() == True or dataType.isspace() == True:
             return False
+        
         if dataType != 'text':
             if formate.isspace() == True:
                 return
+            
         query=query.format(mid, gid, uid, data, dataType, formate, FileName)
         try:
-            print(query)
             return self.db.exe(qurey=query)
+
         except Exception as e:
             return e
 
