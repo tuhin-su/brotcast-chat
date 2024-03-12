@@ -2,16 +2,18 @@ from modules.UI import UI
 from modules.transceiver import Transceiver
 from modules.functions import *
 from modules.storage import DataBase, DataBaseHandaler
+from modules.config import config
 from threading import Thread
 from json import loads, dumps
 
 class BTchat:
     def __init__(self) -> None:
+        self.conf=config()
         self.ui=UI()
         self.ui.set(self)
         self.trans=Transceiver()
-        self.db=DataBase()
-        self.storage=DataBaseHandaler(db=self.db)
+        self.db=DataBase(conf=self.conf)
+        self.storage=DataBaseHandaler(db=self.db, conf=self.conf)
         self.id=None
         self.active_gid=None
         self.active=True
