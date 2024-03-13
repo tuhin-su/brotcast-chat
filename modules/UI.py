@@ -30,14 +30,7 @@ class UI:
         self.next_icon = PhotoImage(data=b64decode(
             '''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'''))
 
-
-        self.chatframe = Frame(self.window, height=600, width=400)
-        self.login_frame = Frame(self.window, height=600, width=400, )
-        self.logincanv = Canvas(self.login_frame, height=600, width=400, background="white")
-        self.enter_name = Entry(self.login_frame, font=("Bell MT", 15), width=30, bg="white")
-        self.chatcanv = Canvas(self.chatframe, height=600, width=400)
-        self.msg_canv = Canvas(self.chatframe, height=450, width=350)
-        self.text_enter = Entry(self.chatframe, font=("Amasis MT Pro", 15), bg="#000B0D", fg="white", width=30)
+        
         
     def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
         chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
@@ -53,101 +46,29 @@ class UI:
     def go_down(self, event): # scroll down
         print("go down")
        
-            
-
-    def scroll_wil_me(self, event):
-        delta = event.delta // 120
-        if delta > 0:
-            if self.label_list[self.cLc - 1].winfo_y() == 400:
-                pass
-
-            else:
-                for i in self.label_list:
-                    x_val, y_val = i.winfo_x(), i.winfo_y()
-                    i.place(x=x_val, y=(y_val - 50))
-
-        elif delta < 0:
-            if self.label_list[0].winfo_y() < 0:
-                for i in self.label_list:
-                    x_val, y_val = i.winfo_x(), i.winfo_y()
-                    i.place(x=x_val, y=(y_val + 50))
-
     def add_msg(self, data:dict, append:bool=True, pos=0):
-        
         current_msg = str(data["data"])
         sender_id = data["id"]
+        print("add msg on list view with logic")
 
-        for i in range(self.cLc):
-                x_val, y_val = self.label_list[i].winfo_x(), self.label_list[i].winfo_y()
-                self.label_list[i].place(x = x_val, y = (y_val - 50))
-                self.last_place = self.label_list[i].winfo_y()
         
-        label = Canvas(self.msg_canv, height=50, width=350)
-        label_msg = Label(label, text=current_msg, font=("arial", 12, "bold"), bg="#FFFFFF", fg="black")
-
-        if sender_id == self.cn.id:
-            label.create_image(310, 5, image=self.me_icon, anchor=NW)
-            label.create_text(340, 35, text=sender_id, fill="black", anchor=NE)
-            label_msg.place(x=300 - label_msg.winfo_reqwidth(), y=10)
-
-        else:
-            label.create_image(5, 5, image=self.me_icon, anchor=NW)
-            label.create_text(5, 35, text=sender_id, fill="black", anchor=NS)
-            label_msg.place(x=50, y=10)
-        
-        if append:
-            self.label_list.append(label)
-        else:
-            self.label_list.insert(pos, label)
-
-        self.label_list[self.cLc].place(x=0, y=self.last_place)
-        self.cLc += 1
 
     def send_msg(self, event):
-        current_msg = self.text_enter.get()
-        self.text_enter.delete(0, END)
+        current_msg = ""
 
         if current_msg.isspace() == False and len(current_msg) > 0:
             self.cn.send(current_msg)
 
     def login(self, event):
-        id = self.enter_name.get()
+        id = ""
         if id.isalpha():
             self.cn.id=id
-            self.login_frame.destroy()
-            self.chatframe.place(x=0, y=0)
             self.cn.start_lisiner()
-            for i in range(0, self.conf.loadRacodeSize):
-                x=self.cn.loadmsg()
-                if x == None:
-                    break
-                self.add_msg(x)
 
     def create_window(self):
         self.window.minsize(self.width, self.height)
         self.window.maxsize(self.width, self.height)
         self.window.iconphoto(True, self.Tchaticon)
-
-        self.login_frame.pack(side="left", fill="both", expand=TRUE)
-        self.logincanv.pack(side="left", fill="both", expand=TRUE)
-
-        next_button = self.logincanv.create_image(165, 440, image=self.next_icon, anchor=NW)
-        self.logincanv.tag_bind(next_button, "<Button-1>", self.login)
-
-        self.center_horizontal(root=self.login_frame, chield=self.enter_name, x=0.65, y=0.5)
-        self.enter_name.bind("<Return>", self.login)
-
-        self.chatcanv.place(x=-1, y=0)
-
-
-        self.msg_canv.place(x=25, y=80)
-        self.msg_canv.bind_all("<MouseWheel>", self.scroll_wil_me)
-        self.msg_canv.bind_all("<B1-Motion>", self.scroll_wil_me)
-
-        self.center_horizontal(root=self.chatframe, chield=self.text_enter, x=0.96)
-        self.text_enter.bind("<Return>", self.send_msg)
-        self.window.bind("<Up>", self.go_up)
-        self.window.bind("<Down>", self.go_down)
         
     def run(self):
         self.active=True
