@@ -47,7 +47,7 @@ class UI:
         self.msg_frame=Frame(self.chat_frame)
         self.show_login_page()
     def create_msg_dilogBox(self, prifile_pic:PhotoImage, user:str, msg:str):
-        if user == self.cn.id:
+        if user == self.cn:
             # return "create a seand msg box"
             self.msg_label=Label(self.msg_frame,)
         else:
@@ -71,7 +71,7 @@ class UI:
         current_msg = str(data["data"])
         sender_id = data["id"]
         lebel=self.create_msg_dilogBox(prifile_pic=self.me_icon,user=sender_id,msg=current_msg)
-        list.append(lebel)
+        self.label_list.append(lebel)
         
 
     def send_msg(self, event):
@@ -79,13 +79,13 @@ class UI:
         current_msg = self.msg_enter.get()
 
         if current_msg.isspace() == False and len(current_msg) > 0:
-            self.add_msg(data={"data":current_msg,"id":self.cn})
+            self.add_msg(data={"data":current_msg,"id":self.cn})# i changed this part 
             self.cn.send(current_msg)
 
     def login(self,event):
         id = self.login_entry.get()
         if id.isalpha():
-            # self.cn.id=id
+            self.cn=id# i changed this part 
             # self.cn.start_lisiner()
             self.show_chat_frame()
 
