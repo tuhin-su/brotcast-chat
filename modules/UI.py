@@ -48,8 +48,8 @@ class UI:
         self.show_login_page()
     def create_msg_dilogBox(self, prifile_pic:PhotoImage, user:str, msg:str):
         if user == self.cn.id:
-            return "create a seand msg box"
-            # self.msg_label=Label(self.)
+            # return "create a seand msg box"
+            self.msg_label=Label(self.msg_frame,)
         else:
             return "create risive msg box"
         
@@ -76,14 +76,14 @@ class UI:
 
     def send_msg(self, event):
         print("sumit")
-        current_msg = ""
+        current_msg = self.msg_enter.get()
 
         if current_msg.isspace() == False and len(current_msg) > 0:
-            self.add_msg()
+            self.add_msg(data={"data":current_msg,"id":self.cn})
             self.cn.send(current_msg)
 
     def login(self,event):
-        id = "sd"
+        id = self.login_entry.get()
         if id.isalpha():
             # self.cn.id=id
             # self.cn.start_lisiner()
@@ -105,7 +105,7 @@ class UI:
     def show_chat_frame(self):
         self.login_frame.destroy()
         self.chat_frame.pack(side="top",anchor=N,fill="both",expand=True) 
-        self.msg_frame.pack(side="top",anchor=CENTER,expand=True,fill="both",padx=10,ipady=250,pady=10)
+        self.msg_frame.pack(side="top",anchor=CENTER,expand=True,fill="both",padx=10,ipady=260,pady=10)
 
         self.msg_box_container.pack(side="bottom",anchor="s",fill="x",expand=True,pady=10)
         self.msg_enter.pack(anchor=S,side="left",fill="both",expand=True,)      
