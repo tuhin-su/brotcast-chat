@@ -61,16 +61,19 @@ class UI:
         
 
     def send_msg(self, event):
+        print("sumit")
         current_msg = ""
 
         if current_msg.isspace() == False and len(current_msg) > 0:
             self.cn.send(current_msg)
 
-    def login(self, event):
-        id = ""
+    def login(self):
+        id = "sd"
         if id.isalpha():
-            self.cn.id=id
-            self.cn.start_lisiner()
+            # self.cn.id=id
+            # self.cn.start_lisiner()
+            self.show_chat_frame()
+
 
     def create_window(self):
         self.window.minsize(self.width, self.height)
@@ -80,7 +83,7 @@ class UI:
         self.login_frame=Frame(self.window,)
         self.profile_label=Label(self.login_frame,image=self.loginiconpic,height=200,anchor=CENTER)
         self.login_entry=Entry(self.login_frame,font=("arial",20),justify="center")#collect the login id from this entry box
-        self.login_Button=Button(self.login_frame,image=self.next_icon,relief="flat",border=0,command=self.show_chat_frame)
+        self.login_Button=Button(self.login_frame,image=self.next_icon,relief="flat",border=0,command=self.login)
 
         self.login_frame.pack(side="top",fill="both",expand=True,anchor=NW,)
         self.profile_label.pack(side="top",fill="both",expand=True,anchor=CENTER)
@@ -89,14 +92,20 @@ class UI:
     def show_chat_frame(self):
         self.login_frame.destroy()
         self.chat_frame=Frame(self.window,bg="blue")
-        self.msg_box_container=Frame(self.chat_frame,height=80)
+        self.msg_box_container=Frame(self.chat_frame)
         self.msg_enter=Entry(self.msg_box_container,font=("arial",22))
         self.msg_send_button=Button(self.msg_box_container,image=self.send_img)
+        self.msg_send_button.config(command=lambda x=self:self.send_msg(x))
+        self.msg_frame=Frame(self.chat_frame)
 
         self.chat_frame.pack(side="top",anchor=N,fill="both",expand=True) 
-        self.msg_box_container.pack(side="top",anchor=S,fill="x",expand=True,pady=10)
+        self.msg_frame.pack(side="top",anchor=CENTER,expand=True,fill="both",padx=10,ipady=250,pady=10)
+
+        self.msg_box_container.pack(side="bottom",anchor="s",fill="x",expand=True,pady=10)
         self.msg_enter.pack(anchor=S,side="left",fill="both",expand=True,)      
-        self.msg_send_button.pack(anchor=S,side="right",fill="both",expand=True,)    
+        self.msg_send_button.pack(anchor=S,side="right",fill="both",expand=True,)   
+        self.msg_enter.bind("<Return>",self.send_msg)#press enter to send msg
+ 
     def run(self):
         self.active=True
         self.window.mainloop()
