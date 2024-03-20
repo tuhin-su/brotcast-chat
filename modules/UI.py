@@ -80,7 +80,7 @@ class UI:
 
         if current_msg.isspace() == False and len(current_msg) > 0:
             self.add_msg(data={"data":current_msg,"id":self.cn})# i changed this part 
-            self.cn.send(current_msg)
+            # self.cn.send(current_msg)
 
     def login(self,event):
         id = self.login_entry.get()
