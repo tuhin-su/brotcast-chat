@@ -34,18 +34,32 @@ class UI:
                                  relief="flat",border=0,command=lambda x=self:self.login(x),
                                  activebackground="#D9D9D9")
         
-        self.chat_frame=Frame(self.window,bg="blue")
-        self.msg_box_container=Frame(self.chat_frame)
-        self.msg_enter=Entry(self.msg_box_container,font=("arial",22))
-        self.msg_send_button=Button(self.msg_box_container,image=self.send_img)
+        self.chat_frame=Frame(self.window,bg="#EEEEEE")
+
+        self.top_box=Frame(self.chat_frame,bg="#DDDDDD")
+
+        self.bottom_box=Frame(self.chat_frame, bg="#EEEEEE")
+        self.msg_enter=Entry(self.bottom_box,font=("arial",22),relief="flat",
+                             borderwidth=0,)
+        self.msg_send_button=Button(self.bottom_box,image=self.send_img,bg="#EEEEEE",
+                                    relief="flat",borderwidth=0)
+
         self.msg_send_button.config(command=lambda x=self:self.send_msg(x))
-        self.msg_frame=Frame(self.chat_frame)
+        
+
         self.show_login_page()
+
+
+    
+
+    def return_percentage(self,root:Frame,percentage:float):
+        return int((root.winfo_reqheight() *600) * percentage)
 
     def create_msg_dilogBox(self, prifile_pic:PhotoImage, user:str, msg:str):
         if user == self.cn.id:
-            frame_for_msg=Frame()
-            msg_label=Label(self.msg_frame,text=self.cn.id+":-"+msg,image=prifile_pic,compound="left",height=50)
+            frame_for_msg=Canvas(self.chat_frame,height=50)
+            frame_for_msg.create_oval(0,50,50,50)
+            msg_label=Label(self.msg_frame,text=msg,height=50)
             msg_label.pack(fill="x",side="bottom",expand=True,anchor=N)
             return msg_label
         else:
@@ -87,6 +101,7 @@ class UI:
         if id.isalpha():
             self.cn.id =id# i changed this part 
             self.cn.start_lisiner()
+            self.login_frame.destroy()#destroy login page
             self.show_chat_frame()
 
 
@@ -102,14 +117,18 @@ class UI:
         self.login_entry.pack(anchor=CENTER,side="top",fill="x",expand=True,padx=10)
         self.login_Button.pack(anchor=CENTER,side="top",fill="none",expand=True)
         self.login_entry.bind("<Return>",self.login)
-    def show_chat_frame(self):
-        self.login_frame.destroy()
-        self.chat_frame.pack(side="top",anchor=N,fill="both",expand=True) 
-        self.msg_frame.pack(side="top",anchor=CENTER,expand=True,fill="both",padx=10,ipady=260,pady=10)
 
-        self.msg_box_container.pack(side="bottom",anchor="s",fill="x",expand=True,pady=10)
-        self.msg_enter.pack(anchor=S,side="left",fill="both",expand=True,)      
-        self.msg_send_button.pack(anchor=S,side="right",fill="both",expand=True,)   
+    def show_chat_frame(self):
+
+        self.chat_frame.pack(side="top",anchor=N,fill="both",expand=True)
+        self.top_box.config(height=self.return_percentage(root=self.chat_frame,percentage=0.9))
+        self.top_box.pack(side="top",anchor=N,expand=True,fill="x",padx=5)
+
+        self.bottom_box.config(height=self.return_percentage(root=self.chat_frame,percentage=0.1))
+        self.bottom_box.pack(side="bottom",anchor="s",fill="x",expand=True,padx=5)
+        
+        self.msg_enter.pack(anchor=CENTER, side='left', fill="both", expand=True, pady=5)      
+        self.msg_send_button.pack(anchor=E, side="right", fill="both", expand=True, pady=5)   
         self.msg_enter.bind("<Return>",self.send_msg)#press enter to send msg
  
     def run(self):
