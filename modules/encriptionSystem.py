@@ -4,3 +4,10 @@ def encript(msg:str,publickey):
 def decript(encriptMsg:str, privetkey):
     pass
 
+def genkey():
+    pass
+
+def loadkey(filename):
+    pass
+
+

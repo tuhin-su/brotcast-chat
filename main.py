@@ -33,7 +33,7 @@ class BTchat:
         self.lastMsgId=res[0]
         return MsgLoader(MsgFormater(id=res[3], mid=res[1], gid=res[2], data=res[4], FileType=res[5], FileName=res[7], FileFormate=res[6] ))
     
-    def send(self, data):
+    def send(self, data): # sending msg to resiver  
         self.active_gid="llb"
         if self.active_gid != None and self.id != None:
             data=fillterWord(["bac","bccd"], data)
@@ -63,7 +63,7 @@ class BTchat:
 
     def run(self):
         self.ui.create_window()
-        self.ui.set(self)
+        self.ui.set(contriler=self)
         self.ui.run()
         self.ui.active=False
         self.active=False
