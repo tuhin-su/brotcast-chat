@@ -101,31 +101,35 @@ class UI:
 
     def button_flick(self):
         self.msg_send_button.config(
-            bg="#ffffff",
-            image=self.blank_img,
-            highlightbackground="#ffffff"
+            image=self.blank_img
         )
         self.window.update()
         sleep(0.005)
 
         self.msg_send_button.config(
-            image=self.send_img,
-            bg="#EEEEEE",            
-            highlightbackground="#EEEEEE"
+            image=self.send_img 
         )
     
+    def if_msg_added(self,x:bool):
+        if x== True:
+            for i in self.label_list:
+                y_ax=i.winfo_y()
+                i.place(x=0,y=y_ax)
+                print(y_ax)
 
     def return_percentage(self,root:Frame,percentage:float):
         return int((root.winfo_reqheight() *600) * percentage)
 
-    def create_msg_dilogBox(self, prifile_pic:PhotoImage, user:str, msg:str):
+    def create_msg_dilogBox(self, profile_pic:PhotoImage, user:str, msg:str):
         if user == self.cn.id:
-            frame_for_msg=Canvas(self.chat_frame,height=50)
-            frame_for_msg.create_text()
-            
-            return msg_label
+            self.if_msg_added(True)
+            frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
+            frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
+            # frame_for_msg.create_text()
+            frame_for_msg.place(x=0,y=540,anchor="sw")
+            return frame_for_msg
         else:
-            msg_label=Label(self.msg_frame,text=msg+"-:you",image=prifile_pic,compound="right")
+            msg_label=Label(self.msg_frame,text=msg+"-:you",image=profile_pic,compound="right")
             msg_label.pack(fill="x",side="bottom",expand=True,anchor=N)
             return msg_label
         
@@ -146,7 +150,7 @@ class UI:
     def add_msg(self, data:dict, append:bool=True, pos=0):
         current_msg = str(data["data"])
         sender_id = data["id"]
-        lebel = self.create_msg_dilogBox(prifile_pic=self.me_icon, user=sender_id, msg=current_msg)
+        lebel = self.create_msg_dilogBox(profile_pic=self.me_icon, user=sender_id, msg=current_msg)
         self.label_list.append(lebel)
         
 
@@ -188,6 +192,9 @@ class UI:
         self.top_box.pack(side="top",anchor=N,expand=True,fill="x",padx=5)
         
         self.msg_canv.pack(side="top",fill="both",anchor=N,expand=True)
+        # self.msg_canv.create_rectangle(0,0,390,540,fill="black")
+
+
         self.bottom_box.config(height=self.return_percentage(root=self.chat_frame,percentage=0.1))
         self.bottom_box.pack(side="bottom",anchor="s",fill="x",expand=True,padx=5)
         
