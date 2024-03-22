@@ -114,8 +114,12 @@ class UI:
         if x== True:
             for i in self.label_list:
                 y_ax=i.winfo_y()
-                i.place(x=0,y=y_ax)
+                i.place(x=0,y=y_ax-2)
                 print(y_ax)
+            for i in self.label_list:
+                if i.winfo_y() <= 20:
+                    i.destroy()
+                    self.label_list.remove(i)
 
     def return_percentage(self,root:Frame,percentage:float):
         return int((root.winfo_reqheight() *600) * percentage)
@@ -125,13 +129,18 @@ class UI:
             self.if_msg_added(True)
             frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
             frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
-            # frame_for_msg.create_text()
+            frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
+            frame_for_msg.create_text(340,25,text=msg,anchor=E)
             frame_for_msg.place(x=0,y=540,anchor="sw")
             return frame_for_msg
         else:
-            msg_label=Label(self.msg_frame,text=msg+"-:you",image=profile_pic,compound="right")
-            msg_label.pack(fill="x",side="bottom",expand=True,anchor=N)
-            return msg_label
+            self.if_msg_added(True)
+            frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
+            frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
+            frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
+            frame_for_msg.create_text(40,25,text=msg,anchor=N)
+            frame_for_msg.place(x=0,y=540,anchor="sw")
+            return frame_for_msg
         
     def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
         chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
