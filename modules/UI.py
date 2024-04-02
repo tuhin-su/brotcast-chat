@@ -13,6 +13,9 @@ class UI:
         self.width = 400
         self.cn = None
         self.active=False
+
+        pre_msg_inDB=True
+        post_msg_inDB=False
         
         self.cLc = 0
         self.label_list = []
@@ -31,6 +34,8 @@ class UI:
             self.window,
             background="#D9D9D9"
         )
+
+        
 
         self.profile_label=Label(
             self.login_frame,
@@ -98,6 +103,8 @@ class UI:
         self.msg_send_button.config(command=lambda x=self:self.send_msg(x))
         self.msg_enter.bind("<Return>",self.send_msg)
         self.show_login_page()
+        self.chat_frame.bind_all("<Up>",self.go_up)
+        self.chat_frame.bind_all("<Down>",self.go_down)
 
     def button_flick(self):
         self.msg_send_button.config(
@@ -124,23 +131,24 @@ class UI:
     def return_percentage(self,root:Frame,percentage:float):
         return int((root.winfo_reqheight() *600) * percentage)
 
-    def create_msg_dilogBox(self, profile_pic:PhotoImage, user:str, msg:str):
-        if user == self.cn.id:
-            self.if_msg_added(True)
-            frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-            frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
-            frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
-            frame_for_msg.create_text(340,25,text=msg,anchor=E)
-            frame_for_msg.place(x=0,y=540,anchor="sw")
-            return frame_for_msg
-        else:
-            self.if_msg_added(True)
-            frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-            frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
-            frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-            frame_for_msg.create_text(40,25,text=msg,anchor=N)
-            frame_for_msg.place(x=0,y=540,anchor="sw")
-            return frame_for_msg
+    def create_msg_dilogBox(self, profile_pic:PhotoImage, user:str, msg:str,position:str):
+        if position == "down":
+            if user == self.cn.id:
+                self.if_msg_added(True)
+                frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
+                frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
+                frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
+                frame_for_msg.create_text(340,25,text=msg,anchor=E)
+                frame_for_msg.place(x=0,y=540,anchor="sw")
+                return frame_for_msg
+            else:
+                self.if_msg_added(True)
+                frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
+                frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
+                frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
+                frame_for_msg.create_text(40,25,text=msg,anchor=N)
+                frame_for_msg.place(x=0,y=540,anchor="sw")
+                return frame_for_msg
         
     def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
         chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
@@ -149,7 +157,9 @@ class UI:
         self.cn = contriler
 
     def go_up(self, event): # scroll up
-        print("go down")
+        print("go up")
+        if self.pre_msg_inDB==True:
+            pass
     
 
 
@@ -165,6 +175,7 @@ class UI:
 
     def send_msg(self, event):
         current_msg = self.msg_enter.get()
+        self.msg_enter.delete(0,END)
         self.button_flick()
         if current_msg.isspace() == False and len(current_msg) > 0:
             # self.add_msg(data={"data":current_msg,"id":self.cn.id})# i changed this part 
@@ -184,6 +195,12 @@ class UI:
         self.window.minsize(self.width, self.height)
         self.window.maxsize(self.width, self.height)
         self.window.iconphoto(True, self.Tchaticon)
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+        window_width, window_height = 400, 600
+        window_x = (screen_width - window_width) // 2
+        window_y = (screen_height - window_height) // 2
+        self.window.geometry("{}x{}+{}+{}".format(self.width,self.height,window_x,window_y))
 
     def show_login_page(self):#here is the login page
 
