@@ -4,7 +4,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from modules.config import config
 from time import sleep
-
+from rich import print
 class UI:
     def __init__(self, conf:config) -> None:
         self.conf=conf
@@ -233,16 +233,23 @@ class UI:
             
        
     def add_msg(self, data:dict, append:bool=True, pos=0):
-        current_msg = str(data["data"])
-        sender_id = data["id"]
-        lebel = self.create_msg_dilogBox(profile_pic=self.me_icon, user=sender_id, msg=current_msg,position="down",status="new")
-        self.label_list.append(lebel)
+        print(data)
+        self.add(
+            self.create_msg_dilogBox(
+                profile_pic=self.me_icon,
+                user=data["id"],
+                msg=str(data["data"]),
+                position="down",
+                status="old"
+            )
+        )
         
 
     def send_msg(self, event):
         current_msg = self.msg_enter.get()
         self.msg_enter.delete(0,END)
         self.button_flick()
+
         if current_msg.isspace() == False and len(current_msg) > 0:
             self.add_msg(data={"data":current_msg,"id":self.cn.id})# i changed this part 
             if not self.cn == None:
@@ -255,8 +262,12 @@ class UI:
             self.cn.start_lisiner()
             self.login_frame.destroy()# destroy login page
             self.show_chat_frame()
-
-
+            for i in range(1,10+1):
+                data=self.cn.loadmsg(up=False)
+                if data == None:
+                    break
+                self.add_msg(data=data)
+                
     def create_window(self):
         self.window.minsize(self.width, self.height)
         self.window.maxsize(self.width, self.height)
