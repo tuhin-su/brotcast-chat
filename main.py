@@ -32,7 +32,6 @@ class BTchat:
             return
         
         self.lastMsgId=res[0]
-
         return MsgLoader(MsgFormater(id=res[3], mid=res[1], gid=res[2], data=res[4], FileType=res[5], FileName=res[7], FileFormate=res[6] ))
     
     def send(self, data): # sending msg to resiver  

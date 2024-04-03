@@ -198,14 +198,17 @@ class UI:
     def go_down(self, event): # scroll up
         if self.pre_msg_inDB==True:
             data=self.cn.loadmsg(up=False) # Dont change
-            lebel = self.create_msg_dilogBox(profile_pic=self.me_icon,
+            if data != None:
+                self.add(
+                    self.create_msg_dilogBox(profile_pic=self.me_icon,
                                              user=data['id'],                  
                                              msg=data['data'],
                                              position="down",
-                                             status="old")
+                                             status="old"
+                    )
+                )
             
     def go_up(self, event):
-        print("go down")
         if self.post_msg_inDB==True: 
             for i in self.label_list:
                 y_ax=i.winfo_y()
@@ -218,7 +221,7 @@ class UI:
             
             data=self.cn.loadmsg(up=True) # Dont change   
             
-            if data is dict:         
+            if data != None:         
                 self.add(
                     self.create_msg_dilogBox(profile_pic=self.me_icon,
                                                 user=data['id'], 
