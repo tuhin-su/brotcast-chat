@@ -15,7 +15,7 @@ class UI:
         self.active=False
 
         self.pre_msg_inDB=True
-        self.post_msg_inDB=False
+        self.post_msg_inDB=True
         
         self.cLc = 0
         self.label_list = []
@@ -122,7 +122,7 @@ class UI:
             for i in self.label_list:
                 y_ax=i.winfo_y()
                 i.place(x=0,y=y_ax-2)
-                print(y_ax)
+                
             for i in self.label_list:
                 if i.winfo_y() <= 20:
                     i.destroy()
@@ -165,7 +165,7 @@ class UI:
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                     frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
                     frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-                    frame_for_msg.create_text(40,25,text=msg,anchor=N)
+                    frame_for_msg.create_text(40,25,text=msg,anchor=W)
                     frame_for_msg.place(x=0,y=540,anchor="sw")
                     return frame_for_msg
 
@@ -192,32 +192,41 @@ class UI:
     def set(self, contriler): # It set Controler for calling function
         self.cn = contriler
 
-    def go_up(self, event): # scroll up
-        print("go up")
+    def add(self, lebel:Canvas):
+        self.label_list.append(lebel)
+
+    def go_down(self, event): # scroll up
         if self.pre_msg_inDB==True:
-            current_msg = None # get msg from database at the bottom side
-            sender_id=None # get the sender id of the msg
-            lebel = self.create_msg_dilogBox(profile_pic=self.me_icon, user=sender_id, msg=current_msg,position="down",status="old")
-            self.label_list.append(lebel)
+            data=self.cn.loadmsg(up=False) # Dont change
+            lebel = self.create_msg_dilogBox(profile_pic=self.me_icon,
+                                             user=data['id'],                  
+                                             msg=data['data'],
+                                             position="down",
+                                             status="old")
             
-    
-
-
-    def go_down(self, event): # scroll down
+    def go_up(self, event):
         print("go down")
-        if self.post_msg_inDB==True:
-            current_msg = None # get msg from database at the topside side
-            sender_id=None # get the sender id of the msg
+        if self.post_msg_inDB==True: 
             for i in self.label_list:
                 y_ax=i.winfo_y()
-                i.place(x=0,y=y_ax+2)
-                print(y_ax)
+                i.place(x=0,y=y_ax+50)
+                
             for i in self.label_list:
                 if i.winfo_y() > 700:
                     i.destroy()
-                    self.label_list.remove(i)                
-            lebel = self.create_msg_dilogBox(profile_pic=self.me_icon, user=sender_id, msg=current_msg,position="top",status="old")
-            self.label_list.append(lebel)
+                    self.label_list.remove(i)    
+            
+            data=self.cn.loadmsg(up=True) # Dont change   
+            
+            if data is dict:         
+                self.add(
+                    self.create_msg_dilogBox(profile_pic=self.me_icon,
+                                                user=data['id'], 
+                                                msg=data['data'],
+                                                position="top",
+                                                status="old"
+                    )
+                )
             
        
     def add_msg(self, data:dict, append:bool=True, pos=0):

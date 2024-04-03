@@ -21,7 +21,8 @@ class BTchat:
     def loadmsg(self, up:bool=True):
         if self.lastMsgId == None:
             self.lastMsgId=self.storage.len()[0]
-            res=self.storage.loadMsg(id=self.lastMsgId)
+            res=self.storage.loadMsg()
+            
         else:
             if up==True:
                 res=self.storage.loadMsg(id=self.lastMsgId-1)
@@ -31,6 +32,7 @@ class BTchat:
             return
         
         self.lastMsgId=res[0]
+
         return MsgLoader(MsgFormater(id=res[3], mid=res[1], gid=res[2], data=res[4], FileType=res[5], FileName=res[7], FileFormate=res[6] ))
     
     def send(self, data): # sending msg to resiver  

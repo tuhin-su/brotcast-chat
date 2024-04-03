@@ -52,6 +52,8 @@ class DataBaseHandaler:
 
     def loadMsg(self, id:int=1):
         query="SELECT * FROM `msg` WHERE  `id`='{}';".format(id)
+
+        print(query)
         try:
             return self.db.execute(query).fetchone()
         except Exception as e:
