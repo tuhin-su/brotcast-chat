@@ -105,6 +105,8 @@ class UI:
         self.show_login_page()
         self.chat_frame.bind_all("<Up>",self.go_up)
         self.chat_frame.bind_all("<Down>",self.go_down)
+        self.chat_frame.bind_all("<Button-4>",self.go_up)
+        self.chat_frame.bind_all("<Button-5>",self.go_down)
 
     def button_flick(self):
         self.msg_send_button.config(
@@ -140,25 +142,25 @@ class UI:
                 frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
                 frame_for_msg.create_text(340,25,text=msg,anchor=E)
                 frame_for_msg.place(x=0,y=540,anchor="sw")
-                return frame_for_msg
+                return (frame_for_msg,"down")
             else:
                 self.if_msg_added(True)
                 frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                 frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
                 frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-                frame_for_msg.create_text(40,25,text=msg,anchor=N)
+                frame_for_msg.create_text(40,25,text=msg,anchor=W)
                 frame_for_msg.place(x=0,y=540,anchor="sw")
-                return frame_for_msg
+                return (frame_for_msg,"down")
         else:
             if position == "down":
                 if user == self.cn.id:
-                    self.if_msg_added(True)
+                    self.if_msg_added(True) 
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                     frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
                     frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
                     frame_for_msg.create_text(340,25,text=msg,anchor=E)
                     frame_for_msg.place(x=0,y=540,anchor="sw")
-                    return frame_for_msg
+                    return (frame_for_msg,"down")
 
                 else:
                     self.if_msg_added(True)
@@ -167,7 +169,7 @@ class UI:
                     frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
                     frame_for_msg.create_text(40,25,text=msg,anchor=W)
                     frame_for_msg.place(x=0,y=540,anchor="sw")
-                    return frame_for_msg
+                    return (frame_for_msg,"down")
 
             else :
                 if user == self.cn.id:
@@ -176,15 +178,15 @@ class UI:
                     frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
                     frame_for_msg.create_text(340,25,text=msg,anchor=E)
                     frame_for_msg.place(x=0,y=0,anchor="nw")
-                    return frame_for_msg
+                    return (frame_for_msg,"top")
 
                 else:
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                     frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
                     frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-                    frame_for_msg.create_text(40,25,text=msg,anchor=N)
+                    frame_for_msg.create_text(40,25,text=msg,anchor=W)
                     frame_for_msg.place(x=0,y=0,anchor="nw")
-                    return frame_for_msg
+                    return (frame_for_msg,"top")
 
     def center_horizontal(self, root, chield, x:float=0.5, y:float=0.5):
         chield.place(in_=root, relx=y, rely=x, anchor='center', height=40)
@@ -192,9 +194,12 @@ class UI:
     def set(self, contriler): # It set Controler for calling function
         self.cn = contriler
 
-    def add(self, lebel:Canvas):
-        self.label_list.append(lebel)
+    def add(self, lebel:Canvas,position:str):
+        if position=="down":
 
+            self.label_list.append(lebel)
+        else :
+            self.label_list.insert(0,lebel)
     def go_down(self, event): # scroll up
         if self.pre_msg_inDB==True:
             data=self.cn.loadmsg(up=False) # Dont change
@@ -212,7 +217,7 @@ class UI:
         if self.post_msg_inDB==True: 
             for i in self.label_list:
                 y_ax=i.winfo_y()
-                i.place(x=0,y=y_ax+50)
+                i.place(x=0,y=y_ax+80,)
                 
             for i in self.label_list:
                 if i.winfo_y() > 700:
