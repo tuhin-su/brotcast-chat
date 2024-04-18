@@ -126,7 +126,7 @@ class UI:
                 i.place(x=0,y=y_ax-2)
                 
             for i in self.label_list:
-                if i.winfo_y() <= 20:
+                if i.winfo_y() < 20:
                     i.destroy()
                     self.label_list.remove(i)
 
@@ -173,6 +173,7 @@ class UI:
 
             else :
                 if user == self.cn.id:
+                    self.if_msg_added(False)
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                     frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
                     frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
@@ -181,6 +182,7 @@ class UI:
                     return frame_for_msg
 
                 else:
+                    self.if_msg_added(False)
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
                     frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
                     frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
@@ -214,7 +216,7 @@ class UI:
         if self.post_msg_inDB==True: 
             for i in self.label_list:
                 y_ax=i.winfo_y()
-                i.place(x=0,y=y_ax+80,)
+                i.place(x=0,y=y_ax+2,)
                 
             for i in self.label_list:
                 if i.winfo_y() > 700:
@@ -256,7 +258,9 @@ class UI:
             self.add_msg(data={"data":current_msg,"id":self.cn.id})# i changed this part 
             if not self.cn == None:
                 self.cn.send(current_msg)
-
+    def load_msg_on_login(self):
+        for i in range(10):
+            self.go_down(event="<Down>")
     def login(self,event):
         id = self.login_entry.get()
         if id.isalpha():
