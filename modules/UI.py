@@ -120,65 +120,67 @@ class UI:
         )
     
     def if_msg_added(self,x:bool):
-        if x== True:
-            for i in self.label_list:
-                y_ax=i.winfo_y()
-                i.place(x=0,y=y_ax-2)
+        print("called add")
+    #     if x== True:
+    #         for i in self.label_list:
+    #             y_ax=i.winfo_y()
+    #             i.place(x=0,y=y_ax-2)
                 
-            for i in self.label_list:
-                if i.winfo_y() < 20:
-                    i.destroy()
-                    self.label_list.remove(i)
+    #         for i in self.label_list:
+    #             if i.winfo_y() < 20:
+    #                 i.destroy()
+    #                 self.label_list.remove(i)
 
     def return_percentage(self,root:Frame,percentage:float):
         return int((root.winfo_reqheight() *600) * percentage)
 
     def create_msg_dilogBox(self, profile_pic:PhotoImage, user:str, msg:str,position:str,status:str):
+        print(status)
         if status == "new":
             if user == self.cn.id:
                 self.if_msg_added(True)
-                frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-                frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
-                frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
-                frame_for_msg.create_text(340,25,text=msg,anchor=E)
-                frame_for_msg.place(x=0,y=540,anchor="sw")
+                frame_for_msg=Label(self.msg_canv,height=3,bg="blue",width=44)
+                Label(frame_for_msg,text=user,image=profile_pic,compound="top",).pack(anchor="ne",side="right")
+                Label(frame_for_msg,text=msg,font=("Georgia",12)).pack(anchor="e",side="right")
+                frame_for_msg.place(x=390,y=540,anchor="se")
                 return frame_for_msg
             else:
                 self.if_msg_added(True)
-                frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-                frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
-                frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-                frame_for_msg.create_text(40,25,text=msg,anchor=W)
+                frame_for_msg=Label(self.msg_canv,height=3,bg="blue",width=44)
+                Label(frame_for_msg,text=user,image=profile_pic,compound="top",).pack(anchor="nw",side="left")
+                Label(frame_for_msg,text=msg,font=("Georgia",12)).pack(anchor="w",side="left")
                 frame_for_msg.place(x=0,y=540,anchor="sw")
                 return frame_for_msg
         else:
             if position == "down":
                 if user == self.cn.id:
-                    self.if_msg_added(True) 
-                    frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-                    frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
-                    frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
-                    frame_for_msg.create_text(340,25,text=msg,anchor=E)
-                    frame_for_msg.place(x=0,y=540,anchor="sw")
+                    self.if_msg_added(True)
+                    frame_for_msg=Label(self.msg_canv,height=3,bg="blue",width=44)
+                    Label(frame_for_msg,text=user,image=profile_pic,compound="top",).pack(anchor="ne",side="right")
+                    Label(frame_for_msg,text=msg,font=("Georgia",12)).pack(anchor="e",side="right")
+                    frame_for_msg.place(x=390,y=540,anchor="se")
+                    
                     return frame_for_msg
 
                 else:
                     self.if_msg_added(True)
-                    frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-                    frame_for_msg.create_image(20,25,image=profile_pic,anchor=CENTER)
-                    frame_for_msg.create_text(20,45,text=user,anchor=CENTER,font=("arial",8))
-                    frame_for_msg.create_text(40,25,text=msg,anchor=W)
+                    frame_for_msg=Label(self.msg_canv,height=3,bg="blue",width=44)
+                    Label(frame_for_msg,text=user,image=profile_pic,compound="top",).pack(anchor="nw",side="left")
+                    Label(frame_for_msg,text=msg,font=("Georgia",12)).pack(anchor="w",side="left")
                     frame_for_msg.place(x=0,y=540,anchor="sw")
                     return frame_for_msg
 
             else :
                 if user == self.cn.id:
                     self.if_msg_added(False)
+                    
                     frame_for_msg=Canvas(self.msg_canv,height=50,width=390)
-                    frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
-                    frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
-                    frame_for_msg.create_text(340,25,text=msg,anchor=E)
-                    frame_for_msg.place(x=0,y=0,anchor="nw")
+
+                    ################################ continue here
+                    # frame_for_msg.create_image(360,25,image=profile_pic,anchor=CENTER)
+                    # frame_for_msg.create_text(360,45,text=user,anchor=CENTER,font=("arial",8))
+                    # frame_for_msg.create_text(340,25,text=msg,anchor=E)
+                    # frame_for_msg.place(x=0,y=0,anchor="nw")
                     return frame_for_msg
 
                 else:
@@ -244,7 +246,7 @@ class UI:
                 user=data["id"],
                 msg=str(data["data"]),
                 position="down",
-                status="old"
+                status="new"
             )
         )
         
